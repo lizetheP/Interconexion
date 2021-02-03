@@ -1,0 +1,69 @@
+
+-------- RAAA -------
+enable
+config t
+
+hostname RouterAAA
+
+int fa0/0
+ip address 221.45.10.65 255.255.255.192
+no shut
+
+int s0/0/0
+ip address 221.45.10.130 255.255.255.252
+no shut
+
+router rip
+ver 2
+network 221.45.10.0
+passive-interface f0/0
+no auto-summary
+
+-------- RFrontera -------
+enable
+config t
+
+hostname RFrontera
+
+int S0/0/0
+ip address 132.254.89.62 255.255.255.192
+no shut
+
+int S0/1/1
+ip address 221.45.10.133 255.255.255.252
+clock rate 128000
+no shut
+
+int S0/1/0
+ip address 221.45.10.129 255.255.255.252
+no shut
+
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+
+router rip
+ver 2
+network 221.45.10.0
+passive-interface s0/0/0
+default-information originate
+no auto-summary
+
+
+-------- RBBB ----------
+enable
+config t
+
+hostname RBBB
+
+int S0/0/0
+ip address 221.45.10.134 255.255.255.252
+no shut
+
+int f0/0
+ip address 221.45.10.1 255.255.255.192
+no shut
+
+router rip
+ver 2
+network 221.45.10.0
+passive-interface f0/0
+no auto-summary
