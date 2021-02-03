@@ -30,7 +30,7 @@ no shut
 int S0/0/0
 descripcion La conexion con el R-SalonFiestas 
 clock rate 128000
-ip address 172.16.4.53 255.255.255.252
+ip address 172.16.4.57 255.255.255.252
 ip nat inside
 no shut
 
@@ -99,7 +99,7 @@ enable password class
 
 int S0/1/0
 description Conexion con R-FamFernandez 
-ip address 172.16.4.54 255.255.255.252
+ip address 172.16.4.58 255.255.255.252
 ip nat inside
 no shut
 
@@ -109,11 +109,19 @@ ip address 172.16.4.50 255.255.255.252
 ip nat inside
 no shut
 
+int g0/1.1
+description Gestion
+encapsulation dot1Q 1
+ip address 172.16.4.54 255.255.255.252
+ip helper-address 172.16.4.57
+ip nat inside
+no shut
+
 int g0/1.10
 description Camerinos
 encapsulation dot1Q 10
 ip address 172.16.4.46 255.255.255.248
-ip helper-address 172.16.4.53
+ip helper-address 172.16.4.57
 ip nat inside
 no shut
 
@@ -121,7 +129,7 @@ int g0/1.20
 description Invitados
 encapsulation dot1Q 20
 ip address 172.16.3.254 255.255.252.0
-ip helper-address 172.16.4.53
+ip helper-address 172.16.4.57
 ip nat inside
 no shut
 
@@ -129,7 +137,7 @@ int g0/1.30
 description Prensa
 encapsulation dot1Q 30
 ip address 172.16.4.30 255.255.255.224
-ip helper-address 172.16.4.53
+ip helper-address 172.16.4.57
 ip nat inside
 no shut
 
@@ -262,6 +270,13 @@ switchport access vlan 30
 int g0/1
 switchport mode trunk
 no shut
+
+int vlan 1
+description VLAN administrativa
+ip address 172.16.4.53 255.255.255.252
+no shut
+
+ip default-gateway 172.16.4.54
 
 --------------------------------
 ---- switch : SalonFiestas -----
