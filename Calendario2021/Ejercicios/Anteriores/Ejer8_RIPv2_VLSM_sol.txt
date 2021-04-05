@@ -5,20 +5,25 @@
 ---------- Router Frontera ---------
 enable
 config t
-hostname RFrontera
 no ip domain-lookup
+
+hostname RFrontera
 enable secret class
 
 line con 0
 password cisco
 login
-logging sync
+logging sync 
+! CUANDO ESTOY EDITANDO SI SE MUESTRA UN MENSAJE DE CONSOLA, 
+! ME PERMITA CONTINUAR CON MI CONFIGURACIÓN.
 
+! CONEXION REMOTA VIA TELNET
 line vty 0 4
 password cisco 
 login
 
 int s0/0/0
+desc INTERFAZ QUE CONECTA CON EL ISP
 ip address 209.89.100.242  255.255.255.252
 no shut
 
