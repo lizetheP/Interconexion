@@ -4,7 +4,7 @@ Configuración parcial del router MyNewProject
 ---------------------------------------------------------------
 ena
 config t
-hostname 
+hostname MyNewProject
 enable secret class
 no ip domain-lookup
 
@@ -18,7 +18,20 @@ password cisco
 login
 
 int g0/0
-ip add 
+ip address 192.168.10.253 255.255.255.252
+no shut
+
+int g0/1.10
+desc HomeOffice
+encapsulation  dot1q  10
+ip add  192.168.10.1 255.255.255.128
+
+int g0/1.20
+desc Entretenimiento
+encapsulation  dot1q  20
+ip add  192.168.10.129 255.255.255.192
+
+int g0/1
 no shut
 
 !--- En esta sección debes incluir la configuración de las Subinterfaces ---
