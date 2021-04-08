@@ -24,12 +24,12 @@ no shut
 int g0/1.10
 desc HomeOffice
 encapsulation  dot1q  10
-ip add  192.168.10.1 255.255.255.128
+ip add  192.168.10.126 255.255.255.128
 
 int g0/1.20
 desc Entretenimiento
 encapsulation  dot1q  20
-ip add  192.168.10.129 255.255.255.192
+ip add  192.168.10.190 255.255.255.192
 
 int g0/1
 no shut
@@ -45,7 +45,7 @@ Configuración parcial del switch S-NewVLANs
 -----------------------------------------------------
 ena
 config t
-hostname 
+hostname S_NewVLANs 
 enable secret class
 no ip domain-lookup
 
@@ -58,6 +58,26 @@ line vty 0 15
 password cisco
 login
 
-!-- En esta sección agregar los comandos de configuración de VLANs --
-!-----------------------------------------------------------------------------------------------
+! Creacion de las VLANs con nombre.  
+vlan 10
+name HomeOffice
+exit
+
+vlan 20
+name Entretenimiento
+exit
+
+! Asignacion de puertos a la VLAN  VID
+interface range f0/1-15 
+switchport mode access
+switchport access vlan 10
+
+interface range f0/16-24 
+switchport mode access
+switchport access vlan 20
+
+! Definicion del o los puertos TRUNK
+interface g0/1
+switchport mode trunk
+no shut
 
