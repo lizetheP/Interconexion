@@ -53,11 +53,11 @@ login
 
 int s0/0/0
 ip address 
+clock rate 
 no shut
 
 int s0/0/1
 ip address 
-clock rate 
 no shut
 
 int f0/0
