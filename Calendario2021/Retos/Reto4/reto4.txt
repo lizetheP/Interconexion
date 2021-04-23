@@ -70,9 +70,10 @@ ningún tipo de tráfico desde direcciones diferentes de Alumnos y Directivos
 dará la impresión de que no existe.
 
 Router A
-access-list 130 permit ip 132.254.89.0 0.0.0.127 host 132.254.89.131
-access-list 130 permit ip 132.254.89.192 0.0.0.31 host 132.254.89.131
-access-list 130 deny ip any any
+access-list 160 permit ip 132.254.89.0 0.0.0.127 host 132.254.89.131
+access-list 160 permit ip 132.254.89.192 0.0.0.31 host 132.254.89.131
+access-list 160 deny ip any host 132.254.89.131
+access-list 160 permit ip any 132.254.89.128 0.0.0.63
 
 int g0/1
-ip access-group 130 out               
+ip access-group 160 out               
