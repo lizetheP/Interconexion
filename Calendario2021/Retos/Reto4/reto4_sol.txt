@@ -16,7 +16,7 @@ tengan acceso a la subred de Profesores.
 access-list 10 deny 132.254.89.0 0.0.0.127
 access-list 10 permit any
 
-!RouterA 
+!RouterB 
 interface g0/0 
 ip access-group 10 out
 
@@ -33,6 +33,7 @@ access-list 100 deny tcp 132.254.89.232 0.0.0.7 host 111.65.32.1 eq 80
 access-list 100 deny tcp 132.254.89.128 0.0.0.63 host 111.65.32.1 eq 80
 access-list 100 permit ip any any
 
+Router B
 int s0/0/0
 ip access-group 100 out
 
@@ -48,8 +49,9 @@ access-list 120 permit ip 132.254.89.0 0.0.0.127 host 132.254.89.131
 access-list 120 permit ip 132.254.89.192 0.0.0.31 host 132.254.89.131
 access-list 120 deny ip any host 132.254.89.131
 access-list 120 permit ip any any
-!access-list 120 permit ip any 132.254.89.128 0.0.0.63
 
+!access-list 120 permit ip any 132.254.89.128 0.0.0.63
+Router A
 int g0/1
 ip access-group 120 out
 
