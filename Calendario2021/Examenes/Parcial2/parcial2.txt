@@ -53,7 +53,7 @@ access-list 120 deny tcp 172.20.0.128 0.0.0.63 host 5.4.3.2 eq 23
 access-list 120 permit ip any any
 
 !RA
-int g0/1 
+int g0/0 
 ip access-group 120 in
 
 d) Diseña una lista de control de acceso estándar que permita que únicamente las 
