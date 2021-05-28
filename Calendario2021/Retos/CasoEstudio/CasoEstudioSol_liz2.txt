@@ -202,21 +202,25 @@ no auto
 
 
 
-access-list 100 deny tcp 172.30.18.126 0.0.0.63 host 172.30.18.1 eq 20
-access-list 100 deny tcp 172.30.18.126 0.0.0.63 host 172.30.18.1 eq 21
-access-list 100 deny tcp 172.30.18.126 0.0.0.63 host 172.30.18.1 eq 80
+access-list 100 deny tcp 172.30.18.64 0.0.0.63 host 172.30.18.1 eq 20
+access-list 100 deny tcp 172.30.18.64 0.0.0.63 host 172.30.18.1 eq 21
+access-list 100 deny tcp 172.30.18.64 0.0.0.63 host 172.30.18.1 eq 80
 
-access-list 100 deny tcp 172.30.15.254 0.0.15.255 host 172.30.18.1 eq 20
-access-list 100 deny tcp 172.30.15.254 0.0.15.255 host 172.30.18.1 eq 21
-access-list 100 deny tcp 172.30.15.254 0.0.15.255 host 172.30.18.1 eq 80
+access-list 100 deny tcp 172.30.0.0 0.0.15.255 host 172.30.18.1 eq 20
+access-list 100 deny tcp 172.30.0.0 0.0.15.255 host 172.30.18.1 eq 21
+access-list 100 deny tcp 172.30.0.0 0.0.15.255 host 172.30.18.1 eq 80
 
-access-list 100 deny tcp 172.30.17.254 0.0.1.255 host 172.30.18.1 eq 20
-access-list 100 deny tcp 172.30.17.254 0.0.1.255 host 172.30.18.1 eq 21
-access-list 100 deny tcp 172.30.17.254 0.0.1.255 host 172.30.18.1 eq 80
+access-list 100 deny tcp 172.30.16.0 0.0.1.255 host 172.30.18.1 eq 20
+access-list 100 deny tcp 172.30.16.0 0.0.1.255 host 172.30.18.1 eq 21
+access-list 100 deny tcp 172.30.16.0 0.0.1.255 host 172.30.18.1 eq 80
 
-access-list 100 deny ip 172.30.15.254 0.0.15.255 host 70.1.1.2
+access-list 100 deny ip 172.30.0.0 0.0.15.255 host 70.1.1.2
 
 access-list 100 permit ip any any 
+
+network 172.30.18.64 255.255.255.192
+network 172.30.0.0 255.255.240.0
+network 172.30.16.0 255.255.254.0
 
 int g0/1.10
 ip access-group 100 in
