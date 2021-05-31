@@ -79,16 +79,16 @@ ip address 192.168.1.126 255.255.255.128
 ip nat inside
 no shut
 
-int s0/0/1
-ip address 192.168.1.186 255.255.255.252
-ip nat inside
-clock rate 128000
-no shut
-
 int s0/0/0
 ip address 200.0.1.241 255.255.255.252
 ip nat outside
 ip access-group 110 out
+no shut
+
+int s0/0/1
+ip address 192.168.1.186 255.255.255.252
+ip nat inside
+clock rate 128000
 no shut
 
 router eigrp 100
