@@ -67,12 +67,34 @@ no shut
 
 ip route 0.0.0.0  0.0.0.0 s0/0/1
 
+router rip 
+v 2
+network 172.30.0.0
+redistribute static
+passive-int s0/0/1 (2)
+passive-int g0/1
+no auto
+
+router eigrp 2000
+network 172.30.18.136 0.0.0.3
+network 172.30.18.0 0.0.0.63
+redistribute static
+passive-int s0/0/1 (2)
+passive-int g0/1
+
 router eigrp 2000
 network 172.30.0.0
 redistribute static
-passive-int s0/0/1
+passive-int s0/0/1 (2)
 passive-int g0/1
 no auto
+
+router ospf 2000
+network 172.30.18.136 0.0.0.3 area 0
+network 172.30.18.0 0.0.0.63 area 0
+default-information originate
+passive-int s0/0/1 (2)
+passive-int g0/1
 
 !----------------------------------------
 ! DHCP
@@ -120,6 +142,7 @@ access-list 1 permit 172.30.0.0 0.0.255.255
 ! Declarar el NAT o PAT dinámico
 ip nat inside source list 1 pool MyPool overload
 
+
 -------- REstadio ----------
 enable
 config t
@@ -139,12 +162,6 @@ password cisco
 login
 
 enable password class
-
-int S0/1/0
-description Conexion con ROrganizadores 
-ip address 172.30.18.138 255.255.255.252
-ip nat inside
-no shut
 
 int g0/0
 description Zona de Fotos&Videos
@@ -183,8 +200,21 @@ ip helper-address 172.30.18.137
 ip nat inside
 no shut
 
+int S0/1/0
+description Conexion con ROrganizadores 
+ip address 172.30.18.138 255.255.255.252
+ip nat inside
+no shut
+
 int g0/1
 no shut
+
+router rip
+v 2
+network 172.30.0.0
+passive-int g0/0
+passive-int g0/1
+no auto
 
 router eigrp 2000
 network 172.30.0.0
@@ -192,6 +222,25 @@ passive-int g0/0
 passive-int g0/1
 no auto
 
+router eigrp 2000
+network 172.30.18.136 0.0.0.3
+network 172.30.18.128 0.0.0.3
+network 172.30.18.132 0.0.0.3
+network 172.30.18.64 0.0.0.63
+network 172.30.0.0 0.0.15.255
+network 172.30.16.0 0.0.1.255
+passive-int g0/0
+passive-int g0/1
+
+router ospf 2000
+network 172.30.18.136 0.0.0.3 area 0
+network 172.30.18.128 0.0.0.3 area 0
+network 172.30.18.132 0.0.0.3 area 0
+network 172.30.18.64 0.0.0.63 area 0
+network 172.30.0.0 0.0.15.255 area 0
+network 172.30.16.0 0.0.1.255 area 0
+passive-int g0/0
+passive-int g0/1
 
 !-----------------------------------------------------
 ! Lista de acceso extendidas (lo más cerca del origen)
@@ -218,10 +267,10 @@ access-list 100 deny ip 172.30.0.0 0.0.15.255 host 70.1.1.2
 
 access-list 100 permit ip any any 
 
+
 network 172.30.18.64 255.255.255.192
 network 172.30.0.0 255.255.240.0
 network 172.30.16.0 255.255.254.0
-
 int g0/1.10
 ip access-group 100 in
 
@@ -287,10 +336,10 @@ no shut
 
 int vlan 1
 description VLAN administrativa
-ip address 172.130.18.133 255.255.255.252
+ip address 172.30.18.133 255.255.255.252
 no shut
 
-ip default-gateway 172.130.18.134
+ip default-gateway 172.30.18.134
 
 --------------------------------
 ---- switch : SEstadio -----
