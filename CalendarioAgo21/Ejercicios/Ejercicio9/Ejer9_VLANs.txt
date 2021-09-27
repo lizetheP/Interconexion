@@ -1,10 +1,9 @@
-
 ---------------------------------------------------------------
 Configuración parcial del router MyNewProject
 ---------------------------------------------------------------
 ena
 config t
-hostname MyNewProject
+hostname 
 enable secret class
 no ip domain-lookup
 
@@ -18,34 +17,21 @@ password cisco
 login
 
 int g0/0
-ip address 192.168.10.253 255.255.255.252
-no shut
-
-int g0/1.10
-desc HomeOffice
-encapsulation  dot1q  10
-ip add  192.168.10.126 255.255.255.128
-
-int g0/1.20
-desc Entretenimiento
-encapsulation  dot1q  20
-ip add  192.168.10.190 255.255.255.192
-
-int g0/1
+ip address 
 no shut
 
 !--- En esta sección debes incluir la configuración de las Subinterfaces ---
+
 !--------------------------------------------------------------------------------------------------
 
 ip route 0.0.0.0 0.0.0.0 g0/0
-
 
 -----------------------------------------------------
 Configuración parcial del switch S-NewVLANs
 -----------------------------------------------------
 ena
 config t
-hostname S_NewVLANs 
+hostname
 enable secret class
 no ip domain-lookup
 
@@ -58,26 +44,7 @@ line vty 0 15
 password cisco
 login
 
-! Creacion de las VLANs con nombre.  
-vlan 10
-name HomeOffice
-exit
+!-- En esta sección agregar los comandos de configuración de VLANs --
+ 
 
-vlan 20
-name Entretenimiento
-exit
-
-! Asignacion de puertos a la VLAN  VID
-interface range f0/1-15 
-switchport mode access
-switchport access vlan 10
-
-interface range f0/16-24 
-switchport mode access
-switchport access vlan 20
-
-! Definicion del o los puertos TRUNK
-interface g0/1
-switchport mode trunk
-no shut
-
+!--------------------------------------------------------------------------------------------------
