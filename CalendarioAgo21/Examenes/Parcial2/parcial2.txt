@@ -60,7 +60,7 @@ d) Diseña una lista de control de acceso estándar que permita que únicamente 
 computadoras de la subred de profesores tengan acceso a la subred de Servidores,
 excepto la computadora del profesor A.
 
-access-list 1 deny host 172.20.0.130
+access-list 1 deny host 172.20.0.132
 access-list 1 permit 172.20.0.128 0.0.0.63
 
 ra
