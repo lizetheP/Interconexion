@@ -171,7 +171,7 @@ no shut
 
 int g0/1.1
 description Gestion
-encapsulation dot1Q 1
+encapsulation dot1Q 1 native
 ip address 172.30.18.134 255.255.255.252
 ip nat inside
 no shut
@@ -233,12 +233,12 @@ passive-int g0/0
 passive-int g0/1
 
 router ospf 2000
-network 172.30.18.136 0.0.0.3 area 0
-network 172.30.18.128 0.0.0.3 area 0
-network 172.30.18.132 0.0.0.3 area 0
-network 172.30.18.64 0.0.0.63 area 0
-network 172.30.0.0 0.0.15.255 area 0
-network 172.30.16.0 0.0.1.255 area 0
+network 172.30.18.136 0.0.0.3 area 0 !
+network 172.30.18.128 0.0.0.3 area 0 !
+network 172.30.18.132 0.0.0.3 area 0 !
+network 172.30.18.64 0.0.0.63 area 0 !
+network 172.30.0.0 0.0.15.255 area 0 !
+network 172.30.16.0 0.0.1.255 area 0 !
 passive-int g0/0
 passive-int g0/1
 
