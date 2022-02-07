@@ -1,0 +1,100 @@
+! ============================
+! ===== RFrontera ======
+! ============================
+
+enable
+config t
+
+hostname RFrontera
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+int g0/0
+ip address 221.10.68.158 255.255.255.224
+no shut
+
+int g0/1
+ip address 221.10.68.126 255.255.255.128
+no shut
+
+int Lo0
+ip address 1.1.1.1 255.255.255.224
+no shut
+
+banner motd #Prohibido entrar a este router sin autorización !!!#
+
+ip dhcp pool UsuariosG0/1
+network 221.10.68.0 255.255.255.128
+default-router 221.10.68.126 
+
+ip dhcp excluded-address 221.10.68.126
+
+! ============================
+! ===== SUsers ======
+! ============================
+enable
+config t
+hostname SUsers
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+int vlan 1
+description VLAN administrativa
+ip address 221.10.68.125 255.255.255.128
+no shut
+
+ip default-gateway 221.10.68.126
+
+banner motd #Prohibido entrar a este router sin autorización !!!#
+
+! ============================
+! ===== SCompany ======
+! ============================
+
+enable
+config t
+hostname SCompany
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+int vlan 1
+description VLAN administrativa
+ip address 221.10.68.157 255.255.255.224
+no shut
+
+ip default-gateway 221.10.68.158
+
+banner motd #Prohibido entrar a este router sin autorización !!!#
