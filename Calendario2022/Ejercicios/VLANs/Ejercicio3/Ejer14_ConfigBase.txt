@@ -1,9 +1,3 @@
-! =====================
-! ======== ISP ========
-! =====================
-
-  Ya configurado
-
 ! ===========================
 ! ======== RFrontera ==========
 ! ===========================
@@ -84,3 +78,12 @@ name <NombreVLAN>
 int range <Rango>
 switchport mode access
 switchport access vlan <ID_VLAN>
+
+! =====================
+! ======== ISP ========
+! =====================
+
+! Configurar rutas estáticas hacia la red local
+
+ip route 
+ip route 

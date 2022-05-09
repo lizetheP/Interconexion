@@ -7,12 +7,6 @@
 ! 3. Configurar el DHCP solo para el grupo de Users obtiene dirección IP dinámica(DHCP)
 !     Configurar DHCP solo para la subred de Users
 ! 4. Configurar una ruta por defautl.
-! =====================
-! ======== ISP ========
-! =====================
-
-  Ya configurado
-
 ! ===========================
 ! ======== RFrontera ==========
 ! ===========================
@@ -33,13 +27,13 @@ no shut
 int g0/0.1
 description VLAN Administrativa
 encapsulation dot1Q 1
-ip address 192.168.0.153 255.255.255.252
+ip address 192.168.1.153 255.255.255.252
 
 ! Manager VLAN 10
 int g0/0.10
 description VLAN Manager
 encapsulation dot1Q 10
-ip address 192.168.0.142 255.255.255.240
+ip address 192.168.1.142 255.255.255.240
 
 ! 192.168.0.128/28 128+16 = 144 = 142
 
@@ -47,13 +41,13 @@ ip address 192.168.0.142 255.255.255.240
 int g0/0.20
 description VLAN Users
 encapsulation dot1Q 20
-ip address 192.168.0.126 255.255.255.128
+ip address 192.168.1.126 255.255.255.128
 
 ! Services VLAN 30
 int g0/0.30
 description VLAN Services
 encapsulation dot1Q 30
-ip address 192.168.0.150 255.255.255.248
+ip address 192.168.1.150 255.255.255.248
 
 ! .144/ 29 .144 255.255.255.248 256-248 = 8 144+8=152
 
@@ -61,12 +55,12 @@ int g0/0
 no shut
 
 ! DHCP Exceptions
-ip dhcp excluded-address 192.168.0.126
+ip dhcp excluded-address 192.168.1.126
 
 ! DHCP Pool
 ip dhcp pool Users
-network 192.168.0.0 255.255.255.128
-default-router 192.168.0.126
+network 192.168.1.0 255.255.255.128
+default-router 192.168.1.126
 
 ! Establecer una ruta por default que se encargue de sacar el tráfico a Internet
 ip route 0.0.0.0 0.0.0.0 s0/0/0
@@ -115,10 +109,10 @@ no shut
 
 int vlan 1
 description VLAN administrativa
-ip address 192.168.0.154 255.255.255.252
+ip address 192.168.1.154 255.255.255.252
 no shut
 
-ip default-gateway 192.168.0.153
+ip default-gateway 192.168.1.153
 
 ! ====================
 ! ====== SUsers ======
@@ -151,9 +145,29 @@ ena
 config t
 hostname ISP
 no ip domain-lookup
+service password-encryption
 
-! Establecer una ruta por default que se encargue de sacar el tráfico a Internet
-ip route 0.0.0.0 0.0.0.0 s0/0/0
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+interface GigabitEthernet0/0
+ip address 151.101.193.70 255.255.255.248
+no shutdown
+
+interface Serial0/0/0
+ip address 65.255.255.254 255.255.255.252
+clock rate 128000
+no shutdown
 
 ip route 65.255.255.252 255.255.255.252 Serial0/0/0 
 ip route 192.168.1.0 255.255.255.0 Serial0/0/0 
+
+!ip route 0.0.0.0 0.0.0.0 s0/0/0
