@@ -17,8 +17,9 @@ ID1_Subnetting2 .. I_P1_Subnetting2  Pregunta 7 (6 puntos)
                    I_P1_Subnetting4 
 ID1_Subnetting3 .. I_p1_Subnetting3  Pregunta 8 (10 puntos)
 ID1_Subnetting4 .. I_R3_Subnetting 
-ID1_Subnetting5 .. I_R3_Subnetting2
 ID1_TablaDirecciones .. I_P1_Tabla_direcciones Pregunta 10  (12 puntos)
 ID1_SubnettingLF .. I_R2_Subnetting1 (8 puntos)
+	ID1_Subnetting3 .. I_p1_Subnetting3  Pregunta 8 (10 puntos)
+	ID1_Subnetting5 .. I_R3_Subnetting2
 ID1_SubnettingVLSM .. I_P2_Subnetting VLSM (45 puntos)
 
