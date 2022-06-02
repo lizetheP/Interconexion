@@ -4,7 +4,7 @@
 
 enable
 
-clock set 12:30:00 Jan 31 2022
+clock set 12:30:00 May 31 2022
 
 config t
 
@@ -23,6 +23,7 @@ password cisco
 login
 
 enable password class
+enable secret class (o también puede ser así)
 
 int g0/0
 ip address 192.168.10.254 255.255.255.0
@@ -34,14 +35,12 @@ no shut
 
 banner motd #Prohibido entrar a este router sin autorización !!!#
 
-
-
 ! ============================
 ! ===== SwitchX ======
 ! ============================
 enable
 
-clock set 12:30:00 Jan 31 2022
+clock set 12:30:00 May 31 2022
 
 config t
 hostname SwitchX
@@ -66,7 +65,7 @@ no shut
 
 ip default-gateway 192.168.10.254
 
-banner motd #Prohibido entrar a este router sin autorización !!!#
+banner motd #Prohibido entrar a este switch sin autorización !!!#
 
 ! ============================
 ! ===== SwitchY ======
@@ -96,5 +95,4 @@ no shut
 
 ip default-gateway 192.168.10.254
 
-banner motd #Prohibido entrar a este router sin autorización !!!#
-
+banner motd #Prohibido entrar a este switch sin autorización !!!#
