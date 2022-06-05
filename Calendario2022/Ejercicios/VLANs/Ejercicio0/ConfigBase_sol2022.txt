@@ -1,10 +1,18 @@
-! 1. Configurar la IP g0/1 del router RPisos
-! 2. Configurar las VLANs
-!     2.1 Configurar las interfaces del RPisos 
-!         Configurar las interfaces con la última dirección válida
-!         de la subred
-!     2.3 Crear las VLANs con nombre y rango en Switch SPisos
-! 3. Configurar una ruta por defautl.
+! 1. Configurar el router RPisos: 
+!    a. Configurar la IP g0/1 del router RPisos
+!    b. Configurar la subinterfaces g0/0 del router RPisos.
+!       Configurar las subinterfaces con la última dirección 
+!       válida de la subred
+!    c. Configurar ruta por default hacia el ISP
+! 2. Configurar el switch SPisos:
+!    a. Configurar la base de datos de VLANs.
+!        Crear las VLANs con nombre
+!     b. Configurar los puertos del switch como de acceso o trunk
+!        Configurar los puertos de acceso de cada VLAN
+!        Configurar el puerto troncal.
+! 3. Configurar una ruta estática del ISP a la red LAN.
+! 4. Realizar pruebas de conectividad
+
 ! ===========================
 ! ======== RPisos ==========
 ! ===========================
@@ -13,6 +21,17 @@ ena
 config t
 hostname RPisos
 no ip domain-lookup
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
 
 int g0/1
 desc Interfaz que conecta con ISP
@@ -52,6 +71,18 @@ ip route 0.0.0.0 0.0.0.0 g0/1
 ena
 conf t
 hostname SPisos
+no ip domain-lookup
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
 
 ! Creación de la base de datos de las VLANs
 vlan 5
@@ -62,8 +93,8 @@ vlan 10
 name Directivos
 exit
 
-!vlan 1 que es la nativa, está creada siempre por default, no la vamos a configurar.
-! Solamente la configuraríamos si queremos acceder al switch por telnet, ping o ssh
+!vlan 1 que es la nativa, está creada siempre por default,no se requiere crear en la base
+!de datos
 
 ! Definición de los puertos de acceso y relación a que VLAN 10
 int range f0/1-19
@@ -79,6 +110,7 @@ int g0/1
 switchport mode trunk
 no shut
 
+! La vamos a configurar ya que queremos acceder al switch por telnet, ping o ssh
 int vlan 1
 description VLAN administrativa
 ip address 200.10.5.73 255.255.255.252
@@ -115,5 +147,4 @@ interface GigabitEthernet0/1
 ip address 15.0.0.30 255.255.255.224
 no shutdown
 
-ip route 20.1.1.4 255.255.255.252 g0/0 
 ip route 200.10.5.0 255.255.255.0 g0/0
