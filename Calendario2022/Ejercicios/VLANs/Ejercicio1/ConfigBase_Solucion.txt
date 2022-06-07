@@ -57,7 +57,6 @@ interface F0/5
 switchport mode trunk
 no shut
 
-
 *** Switch S2 ***
 ena
 config t
