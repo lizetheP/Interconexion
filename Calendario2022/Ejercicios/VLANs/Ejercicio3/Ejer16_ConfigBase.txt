@@ -1,11 +1,27 @@
 ! ===========================
-! ======== RFrontera ==========
+! ======== RFrontera ========
 ! ===========================
 
 ena
 config t
 hostname RFrontera
+
 no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 4 
+password cisco 
+login
+exit
 
 int s0/0/0
 ip address <DIR_IP> <MSK>
@@ -48,6 +64,23 @@ ena
 conf t
 hostname SCompany
 
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
 ! Creación de la base de datos de las VLANs
 vlan <ID_VLAN>
 name <NombreVLAN>
@@ -69,6 +102,23 @@ no shut
 ena
 conf t
 hostname SUsers
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
 
 ! Creación de la base de datos de las VLANs
 vlan <ID_VLAN>
