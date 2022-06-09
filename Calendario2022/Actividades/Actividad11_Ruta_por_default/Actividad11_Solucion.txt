@@ -35,6 +35,9 @@ no shut
 banner motd #Prohibido entrar a este router sin autorización !!!#
 
 ip route 0.0.0.0 0.0.0.0 s0/0/0
+! o también puede ser
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+ip route 0.0.0.0 0.0.0.0 132.254.255.253
 
 ! ============================
 ! ===== SwitchStudio ======
@@ -59,7 +62,7 @@ login
 banner motd #Prohibido entrar a este router sin autorización !!!#
 
 ! ============================
-! ===== SwitchServicios ======4492037908
+! ===== SwitchServicios ======
 ! ============================
 
 enable
