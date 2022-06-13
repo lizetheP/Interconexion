@@ -22,3 +22,13 @@ Buen esfuerzo estimado Renato, solamente tengo algunos comentarios:
 * Faltó incluir el diseño físico de la red: router y swiches en una topología estrella.
 * El total de metros calculado de cableado UTP es insuficiente. El cableado de cada mesa se debe de multiplicar por el número de outlets.
 * Cuatro switches son insuficientes, ya que se requiere un switch principal (conectado al router) para conectar estos 4 switches intermedios.
+* El diseño de la topología no concuerda con la topología estrella. Recuerda que la topología estrella del cableado estructurado es un switch principal y de ahí salen los switches secundarios.
+*  Faltó incluir el diseño físico de la red: router y swiches en una topología estrella.
+* Faltó incluir el diagrama del salón con la ubicación de los outlets.
+
+* Faltó incluir el diseño físico de la red: router y swiches en una topología estrella.
+* Tres switches son insuficientes, ya que se requiere un switch principal (conectado al router) para conectar al menos cuatro switches intermedios que cubran las necesidades del número de puertos por persona.
+* Faltó incluir los cálculos detallados de cableado UTP.
+* El total de metros calculado de cableado UTP es insuficiente, se tiene que multiplicar por cada outlet, el cableado de cada mesa.
+* El total de canaleta también es insuficiente, la canaleta también debe correr por debajo de las mesas.
+* No se especifica el número de work área outlets.
