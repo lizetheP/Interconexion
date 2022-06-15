@@ -1,0 +1,6 @@
+ip incorrecta
+gateway incorrecto de switches
+Máscaras incorrectas
+interfaces configuradas incorrectas
+
+
