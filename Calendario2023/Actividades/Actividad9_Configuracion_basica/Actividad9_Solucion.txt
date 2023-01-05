@@ -1,0 +1,98 @@
+! ============================
+! ===== MyRouter ======
+! ============================
+
+enable
+
+clock set 12:30:00 May 31 2022
+
+config t
+
+hostname MyRouter
+
+service password-encryption
+no ip domain-lookup
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+enable password class
+enable secret class (o también puede ser así)
+
+int g0/0
+ip address 192.168.10.254 255.255.255.0
+no shut
+
+int Lo0
+ip address 1.1.1.1 255.255.255.0
+no shut
+
+banner motd #Prohibido entrar a este router sin autorización !!!#
+
+! ============================
+! ===== SwitchX ======
+! ============================
+enable
+
+clock set 12:30:00 May 31 2022
+
+config t
+hostname SwitchX
+
+service password-encryption
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+int vlan 1
+description VLAN administrativa
+ip address 192.168.10.1 255.255.255.0
+no shut
+
+ip default-gateway 192.168.10.254
+
+banner motd #Prohibido entrar a este switch sin autorización !!!#
+
+! ============================
+! ===== SwitchY ======
+! ============================
+enable
+clock set 12:30:00 Jan 31 2022
+config t
+hostname SwitchY
+
+service password-encryption
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+int vlan 1
+description VLAN administrativa
+ip address 192.168.10.200 255.255.255.0
+no shut
+
+ip default-gateway 192.168.10.254
+
+banner motd #Prohibido entrar a este switch sin autorización !!!#

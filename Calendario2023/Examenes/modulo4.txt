@@ -1,0 +1,110 @@
+hostname RAlumnos
+no ip domain-lookup
+enable secret ciscoen
+
+line con 0
+password ciscocon
+login
+
+line vty 0 4
+password ciscovty
+login
+
+service password-encryption
+banner motd #Bienvenido al router#
+int g0/0/0
+desc Interface de alumnos
+ip address 215.1.1.46 255.255.255.240
+no shut
+
+int vlan 1
+ip address 215.1.1.45 255.255.255.240
+no shut
+ip default-gateway 215.1.1.46
+
+ip route 200.2.2.8 255.255.255.248 s0/1/0
+ip route 215.1.1.32 255.255.255.240 200.2.2.70
+ip route 0.0.0.0 0.0.0.0 s0/1/0 220.0.5.74
+
+ip dhcp pool directores
+network 132.254.89.192 255.255.255.224
+default-router 132.254.89.222
+ip dhcp excluded-address 132.254.89.221*
+ip dhcp excluded-address 132.254.89.222*
+
+40
+40
+172.20.0.193
+255.255.255.224
+50
+50
+172.20.0.1
+255.255.255.128
+f0/2-10
+access
+f0/11-20
+access
+trunk
+
+
+
+
+.2.70
+
+hostname RAdmin
+no ip domain-lookup
+enable secret ciscoen
+
+line con 0
+password ciscocon
+login
+
+line vty 0 4
+password ciscovty
+login
+
+service password-encryption
+banner motd #Bienvenido al router#
+int g0/0/1
+desc Interface de profesores
+ip address 200.2.2.14 255.255.255.248
+no shut
+
+int vlan 1
+ip address 200.2.2.13 255.255.255.248
+no shut
+ip default-gateway 200.2.2.14
+
+ip route 215.1.1.32 255.255.255.240 s0/1/0
+ip route 215.1.1.32 255.255.255.240 S0/1/0
+
+ip route 0.0.0.0 0.0.0.0 220.0.5.74*
+
+ip route 215.1.1.32 255.255.255.240 s0/1/1 200.2.2.70 
+ip route 215.1.1.32 255.255.255.240 S0/1/1 200.2.2.70 
+
+
+ip dhcp pool alumnos
+network 132.254.89.128 255.255.255.192
+default-router 132.254.89.190
+ip dhcp excluded-address 132.254.89.189*
+ip dhcp excluded-address 132.254.89.190*
+
+40
+40
+172.20.0.193
+255.255.255.224
+50
+50
+172.20.0.1
+255.255.255.128
+f0/2-10
+access
+f0/11-20
+access
+trunk
+
+
+
+
+.2.70
