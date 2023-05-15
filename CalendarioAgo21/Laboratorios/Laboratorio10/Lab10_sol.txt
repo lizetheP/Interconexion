@@ -165,6 +165,18 @@ no shut
 
 ip default-gateway 192.168.10.1
 
+Configuración ssh
+------------------
+ip domain-name cisco.com
+username admin privilege 15 secret class
+crypto key generate rsa
+!Press enter and then type the value of 1024
+
+line vty 0 4
+login local
+transport input ssh
+exit
+
 
 -----------------------------------------------------
 Configuración del switch S3
@@ -199,6 +211,8 @@ Lista de acceso extendidas (lo más cerca del origen)
 
 1. Allow web traffic originating from the 192.168.10.0/24 network 
    to go to any network.
+1. Permita que el tráfico web que se origina en la red 192.168.10.0/24
+   vaya a cualquier red.
 
    Router 1
    access-list 110 permit tcp 192.168.10.0 0.0.0.255 any eq 80
@@ -208,6 +222,7 @@ Lista de acceso extendidas (lo más cerca del origen)
    ip access-group 110 in 
 
 2. Allow an SSH connection to the R3 serial interface from PC-A.
+   Permita una conexión SSH a la interfaz serial de R3 desde la PC-A.
 
    Router 1
    access-list 120 permit tcp host 192.168.10.3 host 10.2.2.1 eq 22
@@ -220,7 +235,7 @@ Lista de acceso extendidas (lo más cerca del origen)
 Lista extendida 1 y 2 
 
    Router 1
-   access-list 100 remark Allow Web & SSH Access
+   access-list 100 remark Permite acceso por Web y SSH
    access-list 100 permit tcp host 192.168.10.3 host 10.2.2.1 eq 22
    access-list 100 permit tcp any any eq 80
     !mia   access-list 100 permit tcp 192.168.10.0 0.0.0.255 any eq 80
@@ -230,6 +245,8 @@ Lista extendida 1 y 2
 
 
 3. Allow users on 192.168.10.0/24 network access to 192.168.20.0/24 network.
+   Permita que los usuarios de la red 192.168.10.0/24 
+   accedan a la red 192.168.20.0/24
 
    Router 1
    access-list 130 permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
@@ -241,11 +258,50 @@ Lista extendida 1 y 2
    ip access-group 130 out 
 
 
+Router 1
+access-list 110 remark Permite acceso por Web, SSH e IP
+access-list 110 permit tcp 192.168.10.0 0.0.0.255 any eq 80
+access-list 110 permit tcp host 192.168.10.3 host 10.2.2.1 eq 22
+access-list 110 permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255   
+access-list 110 deny ip any any
+
+Router 1
+
+access-list 111 permit tcp 192.168.10.0 0.0.0.255 any eq 80
+access-list 111 permit tcp host 192.168.10.3 host 10.2.2.1 eq 22
+access-list 111 permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
+
+ip access-list extended 111
+40 permit ip 192.168.10.0 0.0.0.255 192.168.30.0 0.0.0.255
+ 
+int g0/1
+ip access-group 111 in 
+
+
 4. Allow web traffic originating from the 192.168.30.0/24 network to access 
-   R1 via the web interface and the 209.165.200.224/27 network on ISP. 
+   R1 (s0/1/0) via the web interface and the 209.165.200.224/27 network on ISP. 
    The 192.168.30.0/24 network should NOT be allowed to access any other 
    network via the web.
+4. Permita que el tráfico web que se origine en la red 192.168.30.0/24 
+   acceda a R1 (s0/1/0) y a la red 209.165.200.224/27 
+   en el ISP. NO se debe permitir que la red 192.168.30.0/24 acceda 
+   a ninguna otra red a través de la web.
 
+
+Router 3
+access-list 113 permit tcp 192.168.30.0 0.0.0.255 host 10.1.1.1 eq 20
+access-list 113 permit tcp 192.168.30.0 0.0.0.255 host 10.1.1.1 eq 21
+access-list 113 permit tcp 192.168.30.0 0.0.0.255 209.165.200.224 0.0.0.31 eq 20
+access-list 113 permit tcp 192.168.30.0 0.0.0.255 209.165.200.224 0.0.0.31 eq 21
+   
+int g0/1
+ip access-group 113 in 
+
+   int s0/1/1
+   ip access-group 140 out 
+
+   int g0/1
+   ip access-group 140 in 
    Router 3
    access-list 140 permit tcp 192.168.30.0 0.0.0.255 host 10.1.1.1 eq 80
    access-list 140 permit tcp 192.168.30.0 0.0.0.255 209.165.200.224 0.0.0.31 eq 80 
@@ -258,12 +314,16 @@ Lista extendida 1 y 2
 
    NAMED EXTENDED ACL ON R3
 
-   ip access-list extended WEB-POLICY
-   permit tcp 192.168.30.0 0.0.0.255 host 10.1.1.1 eq 80
-   permit tcp 192.168.30.0 0.0.0.255 209.165.200.224 0.0.0.31 eq 80 
+ip access-list extended WEB-POLICY
+permit tcp 192.168.30.0 0.0.0.255 host 10.1.1.1 eq 80
+permit tcp 192.168.30.0 0.0.0.255 209.165.200.224 0.0.0.31 eq 80 
 
-   int s0/1/1
-   ip access-group WEB-POLICY out
+int g0/1
+ip access-group WEB-POLICY in
+
+ip access-list extended WEB-POLICY
+30 permit ip 192.168.30.0 0.0.0.255 192.168.10.0 0.0.0.255
+end
 
 
 -----------------------------------------------------------------------
