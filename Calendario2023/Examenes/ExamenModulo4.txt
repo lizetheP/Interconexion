@@ -1,0 +1,9 @@
+line con 0
+password ciscocon
+login
+
+enable password ciscocon
+
+line vty 0 4
+password ciscovty
+login
