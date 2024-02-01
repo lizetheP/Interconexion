@@ -1,0 +1,99 @@
+---------------------------------------------------------------
+router LuisitoRouter
+---------------------------------------------------------------
+ena
+config t
+hostname LuisitoRouter
+enable secret class
+no ip domain-lookup
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+int s0/0/0
+ip address 132.254.255.253 255.255.255.252 
+no shut
+
+int g0/1.1
+description VLAN Gestion
+encapsulation dot1q 1
+ip add 200.7.1.50 255.255.255.252
+
+int g0/1.50
+description VLAN Estudio
+encapsulation dot1q 50
+ip add 200.7.1.30 255.255.255.224
+
+int g0/1.100
+description VLAN Servicios
+encapsulation dot1q 100
+ip add 200.7.1.46 255.255.255.240
+
+int g0/1
+no shut
+
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+!ip route 0.0.0.0 0.0.0.0 132.254.255.254
+
+ip dhcp excluded-address 200.7.1.30
+
+ip dhcp pool Estudio
+network 200.7.1.0 255.255.255.224
+default-router 200.7.1.30
+
+-----------------------------------------------------
+Switch SLuisito
+-----------------------------------------------------
+ena
+config t
+hostname SLuisito
+enable secret class
+no ip domain-lookup
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+vlan 50
+name Estudio
+exit
+
+vlan 100
+name Servicios
+exit
+
+interface range f0/1-15
+switchport mode access
+switchport access vlan 50
+
+interface range f0/16-24
+switchport mode access
+switchport access vlan 100
+
+interface g0/1
+switchport mode trunk
+no shut
+
+int vlan 1
+description VLAN Administrativa
+ip address 200.7.1.49 255.255.255.252
+no shut
+
+ip default-gateway 200.7.1.50
+
+! ISP
+!-------------------------------------------------
+ip route 200.7.1.0 255.255.255.224 Serial0/0/0 
+ip route 200.7.1.32 255.255.255.240 Serial0/0/0 
+ip route 200.7.1.48 255.255.255.252 132.254.255.253 

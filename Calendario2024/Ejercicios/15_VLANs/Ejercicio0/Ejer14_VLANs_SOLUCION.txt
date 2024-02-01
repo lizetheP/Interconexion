@@ -1,0 +1,150 @@
+! 1. Configurar el router RPisos: 
+!    a. Configurar la IP g0/1 del router RPisos
+!    b. Configurar la subinterfaces g0/0 del router RPisos.
+!       Configurar las subinterfaces con la última dirección 
+!       válida de la subred
+!    c. Configurar ruta por default hacia el ISP
+! 2. Configurar el switch SPisos:
+!    a. Configurar la base de datos de VLANs.
+!        Crear las VLANs con nombre
+!     b. Configurar los puertos del switch como de acceso o trunk
+!        Configurar los puertos de acceso de cada VLAN
+!        Configurar el puerto troncal.
+! 3. Configurar una ruta estática del ISP a la red LAN.
+! 4. Realizar pruebas de conectividad
+
+! ===========================
+! ======== RPisos ==========
+! ===========================
+
+ena
+config t
+hostname RPisos
+no ip domain-lookup
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+int g0/1
+desc Interfaz que conecta con ISP
+ip address 20.1.1.5 255.255.255.252
+no shut
+
+! Declaración de subinterfaces.
+
+! Administrativa VLAN 1
+int g0/0.1
+description VLAN Administrativa
+encapsulation dot1Q 1
+ip address 200.10.5.74 255.255.255.252
+
+! Empleados VLAN 5
+int g0/0.5
+description VLAN Empleados
+encapsulation dot1Q 5
+ip address 200.10.5.62 255.255.255.192
+
+! Users VLAN 10
+int g0/0.10
+description VLAN Directivos
+encapsulation dot1Q 10
+ip address 200.10.5.70 255.255.255.248
+
+int g0/0
+no shut
+
+! Establecer una ruta por default que se encargue de sacar el tráfico a Internet
+ip route 0.0.0.0 0.0.0.0 g0/1
+
+! ====================
+! ===== SPisos ======
+! ====================
+
+ena
+conf t
+hostname SPisos
+no ip domain-lookup
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+! Creación de la base de datos de las VLANs
+vlan 5
+name Empleados
+exit
+
+vlan 10
+name Directivos
+exit
+
+!vlan 1 que es la nativa, está creada siempre por default,no se requiere crear en la base
+!de datos
+
+! Definición de los puertos de acceso y relación a que VLAN 10
+int range f0/1-19
+switchport mode access
+switchport access vlan 5
+
+int range f0/20-24
+switchport mode access
+switchport access vlan 10
+
+! Definición de puertos trunk G0/1
+int g0/1
+switchport mode trunk
+no shut
+
+! La vamos a configurar ya que queremos acceder al switch por telnet, ping o ssh
+int vlan 1
+description VLAN administrativa
+ip address 200.10.5.73 255.255.255.252
+no shut
+
+ip default-gateway 200.10.5.74
+
+! ===========================
+! ======== ISP ==========
+! ===========================
+
+ena
+config t
+hostname Totalplay
+no ip domain-lookup
+service password-encryption
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+interface GigabitEthernet0/0
+ip address 20.1.1.6 255.255.255.252
+no shutdown
+
+interface GigabitEthernet0/1
+ip address 15.0.0.30 255.255.255.224
+no shutdown
+
+ip route 200.10.5.0 255.255.255.0 g0/0

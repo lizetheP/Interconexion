@@ -1,0 +1,99 @@
+------------------------
+--------- MyISP --------
+------------------------
+! Ya Configurado !!!!
+
+! RUTAS ESTÁTICAS
+
+--------------------------
+-------- RFrontera -------
+--------------------------
+enable
+config t
+
+hostname 
+
+!Encriptar passwords
+service password-enc
+
+! Desactivar DNS
+no ip domain-lookup
+
+! Password de la consola
+line con 0
+password
+login
+logging sync
+
+! Conexión TELNET o para configurar SSH
+line vty 0 4
+password
+login
+logging sync
+
+! Password para entrar a modo privilegiado
+enable password class
+
+int S0/0/0
+desc
+ip address 
+no shut
+
+int S0/0/1
+description 
+ip address  
+no shut
+
+int g0/0
+desc 
+ip address 
+no shut
+
+! RUTAS ESTÁTICAS
+
+----------------------
+-------- RA ----------
+----------------------
+
+enable
+config t
+
+hostname
+
+!Encriptar passwords
+service password-enc
+
+! Desactivar DNS
+no ip domain-lookup
+
+! Password de la consola
+line con 0
+password cisco
+login
+logging sync
+
+! Conexión TELNET o para configurar SSH
+line vty 0 4
+password cisco
+login
+logging sync
+
+! Password para entrar a modo privilegiado
+enable password class
+
+int S0/0/0
+description 
+ip address
+no shut
+
+int g0/0
+description 
+ip address 
+no shut
+
+int g0/1
+description 
+ip address 
+no shut
+
+! RUTAS ESTÁTICAS
