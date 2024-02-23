@@ -1,0 +1,46 @@
+en
+config t
+
+hostname S1
+
+no ip domain-lookup
+
+! Password de modo privilegiado
+enable secret class
+! enable password class es un password sin encriptar
+
+! Password de consola
+line con 0
+password cisco
+login
+logging synchronous
+exit
+
+! Password de accesos remotos
+line vty 0 15
+password cisco
+login
+logging synchronous
+exit
+ 
+! El default vty para un switch es 0 15
+! El default vty para un router es 0 4
+
+banner motd #Prohibido entrar sin autorización#
+
+int vlan 1
+ip address 192.168.0.29 255.255.255.224
+no shut
+exit
+
+ip default-gateway 192.168.0.1
+
+
+
+
+
+
+
+
+
+
