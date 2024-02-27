@@ -16,12 +16,25 @@ login
 logging synchronous
 exit
 
-! Password de accesos remotos
+! Password de accesos remotos ruteador
+line vty 0 4
+password cisco
+login
+logging synchronous
+exit
+
+! Password de accesos remotos switch
 line vty 0 15
 password cisco
 login
 logging synchronous
 exit
+
+
+
+
+
+
  
 ! El default vty para un switch es 0 15
 ! El default vty para un router es 0 4
