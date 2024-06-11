@@ -1,0 +1,180 @@
+! ===========================
+! ======== RHospital ========
+! ===========================
+
+ena
+config t
+hostname RHospital
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 4 
+password cisco
+login
+exit
+
+int s0/0/1
+desc Enlace con ISP
+ip address 205.0.1.242 255.255.255.252
+clock rate 128000
+no shut
+
+! Declaración de subinterfaces.
+
+! Nativa VLAN 1
+int g0/1.1
+description VLAN Nativa
+encapsulation dot1Q 1
+ip address 170.15.3.226 255.255.255.252
+
+! Medicos VLAN 10
+int g0/1.10
+description VLAN Medicos
+encapsulation dot1Q 10
+ip address 170.15.3.190 255.255.255.192
+
+! Pacientes VLAN 20
+int g0/1.20
+description VLAN Pacientes
+encapsulation dot1Q 20
+ip address 170.15.3.126 255.255.255.128
+
+int g0/1
+no shut
+
+! Configuración de DHCP
+ip dhcp excluded-address 170.15.3.129
+ip dhcp excluded-address 170.15.3.190
+ip dhcp excluded-address 170.15.3.126
+
+ip dhcp pool VLAN10
+network 170.15.3.128 255.255.255.192
+dns-server 2.2.2.2
+default-router 170.15.3.190
+
+ip dhcp pool VLAN20
+network 170.15.3.0 255.255.255.128
+dns-server 2.2.2.2
+default-router 170.15.3.126
+
+ip route 0.0.0.0 0.0.0.0 s0/0/1
+
+end
+
+
+! ====================
+! ===== SHospital ====
+! ====================
+
+ena
+conf t
+hostname SHospital
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
+! Creación de la base de datos de las VLANs
+vlan 10
+name Medicos
+exit
+
+vlan 20
+name Pacientes
+exit
+
+! Definición de los puertos de acceso
+int range f0/1-14
+switchport mode access
+switchport access vlan 10
+exit
+
+int range f0/15-20
+switchport mode access
+switchport access vlan 20
+exit
+
+! Definición de puertos trunk
+int g0/1
+switchport mode trunk
+no shut
+exit
+
+! Configuración de la IP del switch y su gateway
+
+int vlan 1
+description VLAN administrativa
+ip address 170.15.3.225 255.255.255.252
+no shut
+exit
+
+ip default-gateway 170.15.3.226
+
+end
+
+! ===========================
+! ======== ISP ==========
+! ===========================
+
+ena
+config t
+hostname ISP
+
+no ip domain-lookup
+service password-encryption
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+interface GigabitEthernet0/0
+ip address 207.231.204.1 255.0.0.0
+no shutdown
+
+interface GigabitEthernet0/1
+ip address 2.0.0.1 255.0.0.0
+no shutdown
+
+interface Serial0/0/0
+ip address 205.0.1.241 255.255.255.252
+no shutdown
+
+ip route 170.15.3.0 255.255.255.128 Serial0/0/0 
+ip route 170.15.3.128 255.255.255.192 Serial0/0/0
+ip route 170.15.3.224 255.255.255.252 Serial0/0/0
+
+end
+
+no ip route 170.15.3.0 255.255.255.128 Serial0/0/0 
+no ip route 170.15.3.128 255.255.255.192 Serial0/0/0
+no ip route 170.15.3.224 255.255.255.252 Serial0/0/0
