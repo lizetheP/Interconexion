@@ -1,0 +1,80 @@
+Buen esfuerzo estimado Daniel, solamente tengo algunos comentarios:
+
+* Hay muchas áreas de oportunidad en el área de direccionamiento, subneteo y subneteo con máscaras de longitud variable. No se logró tener la competendia de disesño de subredes con máscaras de longitud variable.
+* En la parte de configuración, hay áreas de oportunidad en la parte de configuración de interfaces y subinterfaces de un ruteador. 
+* La parte de seguridad en los equipos de interconexión está correctamente implementada.
+
+Te sugiero seguir estudiando y practicando el tema de direccionamiento y configuración.
+También te pido seguir trabajando en tu organización, distractores y prioridades con el fin de que puedas entregar todas tus actividades en tiempo y forma.
+
+Buen esfuerzo trabajo Diego, solamente tengo algunos comentarios:
+
+* Hay muchas áreas de oportunidad en el área de direccionamiento, subneteo y subneteo con máscaras de longitud variable. No se logró tener la competencia de diseño de subredes con máscaras de longitud variable.
+* En la parte de configuración y seguridad se lograron las competencias solicitadas. La configuración de los equipos de interconexión y la configuración de seguridad fueron correctamente implementados en el examen integrador.
+
+Diego eres un alumno muy brillante, solamente faltó un poco más de esfuerzo, trabajo y práctica para lograr las competencias de direccionamiento, subneteo y subneteo con máscaras de longitud variable.
+
+Te sugiero seguir estudiando y practicando el tema de direccionamiento y configuración.
+También te pido seguir trabajando en tu organización, distractores y prioridades con el fin de que puedas entregar todas tus actividades en tiempo y forma.
+
+Buen trabajo Diego, solamente tengo algunos comentarios:
+
+* Hay muchas áreas de oportunidad en el área de direccionamiento, subneteo y subneteo con máscaras de longitud variable. No se logró tener la competencia de diseño de subredes con máscaras de longitud variable.
+* En la parte de configuración y seguridad se lograron las competencias solicitadas. La configuración de los equipos de interconexión y la configuración de seguridad fueron correctamente implementados en el examen integrador.
+
+Diego eres un alumno muy brillante, solamente faltó un poco más de esfuerzo, trabajo y práctica para lograr las competencias de direccionamiento, subneteo y subneteo con máscaras de longitud variable.
+
+Te sugiero seguir estudiando y practicando el tema de direccionamiento y configuración.
+También te pido seguir trabajando en tu organización, distractores y prioridades con el fin de que puedas entregar todas tus actividades en tiempo y forma.
+
+Muy buen trabajo estimado Miguel, solamente tengo algunos comentarios:
+
+* Hay áreas de oportunidad en el área de subneteo con máscaras de longitud variable y en la parte de asignación de direcciones válidas a los equipos de interconexión. No se logró tener la competencia de diseño de subredes con máscaras de longitud variable.
+* En la parte de configuración y seguridad se lograron las competencias solicitadas. La configuración de los equipos de interconexión y la configuración de seguridad fueron correctamente implementadas en el examen integrador.
+
+Miguel te felicito por tu esfuerzo y excelente trabajo en esta unidad de formación.
+
+Excelente trabajo estimado Benjamín, no me queda mas que felicitarte, tuviste un excelente desempeño y lograste todas las competencias solicitadas en esta unidad de formación.
+
+
+Buen esfuerzo estimado Cristian, solamente tengo algunos comentarios:
+
+* Hay muchas áreas de oportunidad en el área de direccionamiento, subneteo y subneteo con máscaras de longitud variable. No se logró tener la competencia de diseño de subredes con máscaras de longitud variable.
+* Hay áreas de oportunidad en la configuración de:
+   - Rutas estáticas y rutas por default.
+   - Configuración de direccionamiento en equipos terminales.
+   - Configuración del default-gateway de un switch.
+   - Pruebas de conectividad.
+
+* La parte de seguridad en los equipos de interconexión está correctamente implementada.
+
+Te sugiero seguir estudiando y practicando el tema de direccionamiento, subneteo, subneteo con máscara de longitud variable y configuración de equipos de interconexión.
+
+Buen esfuerzo estimado Juan Pablo, solamente tengo algunos comentarios:
+
+* Hay todavía algunas áreas de oportunidad en el área de direccionamiento, sin embargo, las competencias de diseño de subredes y subredes con máscaras de longitud variable se logró correctamente.
+* Hay áreas de oportunidad en la configuración de:
+   - Rutas por default.
+   - Configuración de interfaces de un ruteador
+   - Configuración del default-gateway de un switch.
+   - Pruebas de conectividad.
+
+* La parte de seguridad en los equipos de interconexión está correctamente implementada.
+
+Te sugiero seguir estudiando y practicando el tema de direccionamiento y configuración de equipos de interconexión.
+
+Felicidades por tu gran trabajo en esta unidad de formación.
+
+Excelente trabajo estimado Emilio Leví, solamente tengo algunos comentarios:
+
+* Hay áreas de oportunidad en el área de direccionamiento, sin embargo, las competencias de diseño de subredes y subredes con máscaras de longitud variable se lograron exitosamente.
+* En la parte de configuración y seguridad se lograron las competencias solicitadas. La configuración de los equipos de interconexión y la configuración de seguridad fueron correctamente implementadas en el examen integrador.
+
+Te sugiero seguir estudiando y practicando el tema de direccionamiento.
+
+Muchas felicidades por tu gran trabajo en esta unidad de formación.
+
+Excelente trabajo estimado Diego, no me queda mas que felicitarte, tuviste un excelente desempeño y lograste todas las competencias solicitadas en esta unidad de formación.
+
+Te felicito por tu excelente trabajo en esta unidad de formación.
+
