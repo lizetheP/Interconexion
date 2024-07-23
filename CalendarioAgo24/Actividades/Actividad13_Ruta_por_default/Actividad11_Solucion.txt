@@ -1,0 +1,85 @@
+! ============================
+! ===== YuyasRouter ======
+! ============================
+
+enable
+config t
+
+hostname YuyasRouter
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+int g0/0
+ip address 215.60.127.30 255.255.255.224
+no shut
+
+int g0/1
+ip address 215.60.127.46 255.255.255.240
+no shut
+
+int s0/0/0
+ip address 132.254.255.253 255.255.255.252
+no shut
+
+banner motd #Prohibido entrar a este router sin autorización !!!#
+
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+! o también puede ser
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+ip route 0.0.0.0 0.0.0.0 132.254.255.253
+
+! ============================
+! ===== SwitchStudio ======
+! ============================
+enable
+config t
+hostname SwitchStudio
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+banner motd #Prohibido entrar a este router sin autorización !!!#
+
+! ============================
+! ===== SwitchServicios ======
+! ============================
+
+enable
+config t
+hostname SwitchServicios
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+banner motd #Prohibido entrar a este router sin autorización !!!#

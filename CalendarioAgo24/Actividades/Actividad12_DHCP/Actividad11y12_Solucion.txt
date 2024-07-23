@@ -1,0 +1,158 @@
+! ============================
+! ===== ISP ======
+! ============================
+
+enable
+config t
+
+hostname ISP
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+int g0/0
+ip address 23.195.199.1 255.255.255.0
+no shut
+
+int Lo0
+ip address 120.2.2.2 255.0.0.0
+
+int Lo1
+ip address 165.23.0.30  255.255.0.0
+
+int Lo2
+ip address 193.254.5.2 255.255.255.0
+
+int S0/0/0
+ip address 200.64.8.253 255.255.255.252
+clock rate 1280000
+no shut
+
+banner motd #Prohibido entrar a este router sin autorización !!!#
+
+ip route 221.10.68.0 255.255.255.128 s0/0/0
+ip route 221.10.68.128 255.255.255.224 200.64.8.254
+
+no ip route 221.10.68.0 255.255.255.128 s0/0/0
+no ip route 221.10.68.128 255.255.255.224 200.64.8.254
+
+! ============================
+! ===== RFrontera ======
+! ============================
+
+enable
+config t
+
+hostname RFrontera
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+int g0/0
+ip address 221.10.68.158 255.255.255.224
+no shut
+
+int g0/1
+ip address 221.10.68.126 255.255.255.128
+no shut
+
+int S0/0/0
+ip address 200.64.8.254 255.255.255.252
+no shut
+
+int Lo0
+ip address 1.1.1.1 255.255.255.224
+no shut
+
+banner motd #Prohibido entrar a este router sin autorización !!!#
+
+ip dhcp pool UsuariosG0/1
+network 221.10.68.0 255.255.255.128
+default-router 221.10.68.126 
+
+ip dhcp excluded-address 221.10.68.125
+ip dhcp excluded-address 221.10.68.126
+
+! O también puede ser un solo comando
+ip dhcp excluded-address 221.10.68.125 221.10.68.126
+
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+
+! ============================
+! ===== SUsers ======
+! ============================
+enable
+config t
+hostname SUsers
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+int vlan 1
+description VLAN administrativa
+ip address 221.10.68.125 255.255.255.128
+no shut
+
+ip default-gateway 221.10.68.126
+
+banner motd #Prohibido entrar a este switch sin autorización !!!#
+
+! ============================
+! ===== SCompany ======
+! ============================
+
+enable
+config t
+hostname SCompany
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+int vlan 1
+description VLAN administrativa
+ip address 221.10.68.157 255.255.255.224
+no shut
+
+ip default-gateway 221.10.68.158
+
+banner motd #Prohibido entrar a este switch sin autorización !!!#

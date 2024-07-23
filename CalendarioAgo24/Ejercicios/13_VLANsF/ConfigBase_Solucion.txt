@@ -1,0 +1,226 @@
+!---------------------
+!*** Switch S1 ***
+!---------------------
+
+ena
+config t
+hostname S1
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
+int vlan 1
+description VLAN Administrativa
+ip address 192.168.1.11 255.255.255.0
+no shut
+
+ip default-gateway 192.168.1.1
+
+int range f0/1-24, g0/1-2
+shut 
+
+!--- Configuración de VLANs ---
+
+vlan 10
+name Estudiantes
+exit
+
+vlan 20
+name Facultad
+exit
+
+interface range f0/3-10 
+switchport mode access
+switchport access vlan 10
+no shut
+
+interface range f0/11-18 
+switchport mode access
+switchport access vlan 20
+no shut
+
+interface F0/1
+switchport mode trunk
+no shut
+
+interface F0/2
+switchport mode trunk
+no shut
+
+!---------------------
+!*** Switch S2 ***
+!---------------------
+
+ena
+config t
+hostname S2
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd #Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
+int vlan 1
+description VLAN Administrativa
+ip address 192.168.1.12 255.255.255.0
+no shut
+
+ip default-gateway 192.168.1.1
+
+int range f0/1-24, g0/1-2
+shut 
+
+!--- Configuración de VLANs ---
+
+vlan 10
+name Estudiantes
+exit
+
+vlan 20
+name Facultad
+exit
+
+interface range f0/3-10 
+switchport mode access
+switchport access vlan 10
+no shut
+
+interface range f0/11-18 
+switchport mode access
+switchport access vlan 20
+no shut
+
+interface F0/1
+switchport mode trunk
+no shut
+
+!---------------------
+!*** Router R1 ***
+!---------------------
+
+ena
+config t
+hostname R1
+
+no ip domain-lookup
+service password-encryption
+
+enable secret class
+
+banner motd #Unauthorized access is strictly prohibited.#
+
+line con 0
+password cisco
+login
+logging synchronous
+
+line vty 0 4
+password cisco
+login
+
+int s0/0/0
+ip address 190.40.0.18 255.255.255.252
+no shut
+
+! Sección para crear las subinterfaces asociadas a cada VLAN
+
+int g0/1.1
+description VLAN 1
+encapsulation dot1q 1
+ip address 192.168.1.1 255.255.255.0
+
+int g0/1.10
+description VLAN Estudiantes
+encapsulation dot1q 10
+ip add 192.168.10.1 255.255.255.0
+
+int g0/1.20
+description VLAN Facultad
+encapsulation dot1q 20
+ip add 192.168.20.1 255.255.255.0
+
+int g0/1
+no shut
+
+ip dhcp excluded-address 192.168.10.1
+ip dhcp excluded-address 192.168.20.1
+
+ip dhcp pool VLAN10
+network  192.168.10.0 255.255.255.0
+default-router 192.168.10.1
+dns-server 8.8.8.8
+
+ip dhcp pool VLAN20
+network  192.168.20.0 255.255.255.0
+default-router 192.168.20.1
+dns-server 8.8.8.8
+
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+
+!---------------------
+!*** ISP ***
+!---------------------
+
+ena
+config t
+hostname ISP
+
+no ip domain-lookup
+service password-encryption
+
+enable secret class
+
+banner motd #Unauthorized access is strictly prohibited.#
+
+line con 0
+password cisco
+login
+logging synchronous
+
+line vty 0 4
+password cisco
+login
+
+int s0/0/1
+ip address 190.40.0.17 255.255.255.252
+clock rate 128000
+no shut
+
+int g0/0
+ip address 192.178.56.1 255.255.255.0
+no shut
+
+int g0/1
+ip address 8.0.0.1 255.0.0.0
+no shut
+
+ip route 192.168.10.0 255.255.255.0 s0/0/1
+ip route 192.168.20.0 255.255.255.0 s0/0/1
+ip route 192.168.1.0 255.255.255.0 s0/0/1
+

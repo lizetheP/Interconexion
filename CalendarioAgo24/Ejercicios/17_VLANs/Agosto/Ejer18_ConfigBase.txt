@@ -1,0 +1,169 @@
+! ===========================
+! ======== RFrontera ========
+! ===========================
+
+ena
+config t
+hostname RFrontera
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 4 
+password cisco 
+login
+exit
+
+int s0/0/0
+ip address 65.255.255.253 255.255.255.252
+no shut
+
+! Declaración de subinterfaces.
+
+! Administrative
+int g0/0.1
+encapsulation dot1Q 1
+ip address 
+
+! Manager
+int g0/0.10
+encapsulation dot1Q 10
+ip address 192.168.1.142 255.255.255.240
+
+! Users
+int g0/0.20
+encapsulation dot1Q 20
+ip address 192.168.1.126 255.255.255.128
+
+! Services
+int g0/0.30
+encapsulation dot1Q 30
+ip address 192.168.1.150 255.255.255.248
+
+int g0/0
+no shut
+
+! DHCP Exceptions
+ip dhcp excluded-address 192.168.1.126
+
+! DHCP Pool
+ip dhcp pool Usuarios
+network 192.168.1.0 255.255.255.128
+default-router 192.168.1.126
+
+! Establecer una ruta por default que se encargue de sacar el tráfico a Internet
+! Next-hop
+ip route 0.0.0.0 0.0.0.0 65.255.255.254
+
+! ====================
+! ===== SCompany ======
+! ====================
+
+ena
+conf t
+hostname SCompany
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
+! Creación de la base de datos de las VLANs
+
+vlan 10
+name Managers
+exit
+
+vlan 20
+name Users
+exit
+
+vlan 30
+name Services
+exit
+
+! Definición de los puertos de acceso y relación a que VLAN
+
+int range f0/1-6
+switchport mode access
+switchport access vlan 10
+
+int range f0/7-19
+switchport mode access
+switchport access vlan 20
+
+int range f0/20-24
+switchport mode access
+switchport access vlan 30
+
+! Definición de puertos trunk.
+int g0/1
+switchport mode trunk
+no shut
+
+int vlan 1
+ip address 
+no shut
+
+ip default-gateway 
+
+! ====================
+! ====== SUsers =======
+! ====================
+
+ena
+conf t
+hostname SUsers
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
+! Creación de la base de datos de las VLANs
+vlan 
+name 
+exit
+
+! Definición de los puertos de acceso y relación a que VLAN
+int range 
+switchport mode access
+switchport access vlan 20
+
+! Definición de puertos trunk.
+int 
+switchport mode trunk
+no shut
