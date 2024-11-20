@@ -139,8 +139,13 @@ line vty 0 4
 password cisco
 login
 
-interface GigabitEthernet0/0
+interface s0/0/0
 ip address 20.1.1.6 255.255.255.252
+clock rate 128000
+no shutdown
+
+interface GigabitEthernet0/0
+ip address 7.7.7.1 255.0.0.0
 no shutdown
 
 interface GigabitEthernet0/1
