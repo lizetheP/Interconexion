@@ -1,0 +1,219 @@
+!---------------------
+!---------------------
+!*** Router R1 ***
+!---------------------
+
+ena
+config t
+hostname R1
+
+no ip domain-lookup
+
+service password-encryption
+
+enable secret class
+
+banner motd #Unauthorized access is strictly prohibited.#
+
+line con 0
+password cisco
+login
+logging synchronous
+
+line vty 0 4
+password cisco
+login
+
+int s0/0/0
+ip address 190.40.0.18 255.255.255.252
+no shut
+
+! Sección para crear las subinterfaces asociadas a cada VLAN
+
+int g0/1.1
+desc VLAN 1
+encapsulation dot1q 1
+ip add 192.168.1.1 255.255.255.0
+
+int g0/1.10
+desc VLAN Students
+encapsulation dot1q 10
+ip add 192.168.10.1 255.255.255.0
+
+int g0/1.20
+desc VLAN Faculty
+encapsulation dot1q 20
+ip add 192.168.20.1 255.255.255.0
+
+int g0/1
+no shut
+
+! Configuración de DHCP
+
+ip dhcp excluded-address 192.168.10.1
+ip dhcp excluded-address 192.168.20.1
+
+ip dhcp pool VLAN10
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.1
+dns-server 8.8.8.8
+
+ip dhcp pool VLAN20
+network 192.168.20.0 255.255.255.0
+default-router 192.168.20.1
+dns-server 8.8.8.8
+
+! Ruta por default hacia el ISP
+
+! Directamente conectada
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+
+! Next-hop o recursiva
+! ip route 0.0.0.0 0.0.0.0 190.40.0.17
+
+
+!---------------------
+!*** Switch S1 ***
+!---------------------
+
+ena
+config t
+hostname S1
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd #Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
+! --- Configuración de IP del switch y default-Gateway
+
+int vlan 1
+description VLAN Administrativa
+ip address 192.168.1.11 255.255.255.0
+no shut
+
+ip default-gateway 192.168.1.1
+
+! Apagar todos los puertos del switch
+
+
+!--- Creación de VLANs ---
+
+vlan 10
+name Students
+exit
+
+vlan 20
+name Faculty
+exit
+
+!--- Configuración de interfaces de acceso y troncales
+
+int range f0/3-10
+switchport mode access
+switchport access vlan 10
+
+int range f0/11-18
+switchport mode access
+switchport access vlan 20
+
+! Definición del o los puertos TRUNK
+interface f0/1
+switchport mode trunk
+no shut
+
+interface f0/2
+switchport mode trunk
+no shut
+!---------------------
+!*** Switch S2 ***
+!---------------------
+
+ena
+config t
+hostname S2
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd #Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
+! --- Configuración de IP del switch y default-Gateway
+
+int vlan 1
+description VLAN Administrativa
+ip address 192.168.1.12 255.255.255.0
+no shut
+
+ip default-gateway 192.168.1.1
+
+! Apagar todos los puertos del switch
+
+
+!--- Creación de VLANs ---
+
+vlan 10
+name Students
+exit
+
+vlan 20
+name Faculty
+exit
+
+!--- Configuración de interfaces de acceso y troncales
+
+int range f0/3-10
+switchport mode access
+switchport access vlan 10
+
+int range f0/11-18
+switchport mode access
+switchport access vlan 20
+
+! Definición del o los puertos TRUNK
+interface f0/1
+switchport mode trunk
+no shut
+
+
+!---------------------
+!*** ISP ***
+!---------------------
+
+! Rutas estáticas hacia las redes de la empresa
+
+! Next-hop o recursivas
+ip route 192.168.1.0 255.255.255.0 190.40.0.18
+ip route 192.168.10.0 255.255.255.0 190.40.0.18
+ip route 192.168.20.0 255.255.255.0 190.40.0.18
+
+! Directamente conectadas
+ip route 192.168.1.0 255.255.255.0 s0/0/1
+ip route 192.168.10.0 255.255.255.0 s0/0/1
+ip route 192.168.20.0 255.255.255.0 s0/0/1
+
+
