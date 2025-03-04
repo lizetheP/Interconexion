@@ -1,0 +1,142 @@
+! 1. Configurar el router RPisos
+     a. Configurar s0/0/1
+     b. Configurar las subinterfaces g0/0
+       con la última IP válida de cada subred
+     c. Configurar ruta por default hacia ISP
+! 2. Configurar SPisos
+     a. Configurar base de datos de VLANs.
+     b. Configurar puertos de acceso
+     c. Configurar puertos troncales
+! 3. Configurar el ISP
+     Configurar rutas estáticas hacia subred/vlan 
+     de Empleados y Directivos
+! 4. Pruebas de conectividad 
+
+
+! ===========================
+! ======== RPisos ==========
+! ===========================
+
+ena
+config t
+hostname RPisos
+no ip domain-lookup
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+int s0/0/1
+desc Conexión con ISP TotalPlay
+ip address 20.1.1.5 255.255.255.252
+no shut
+
+! Declaración de subinterfaces.
+
+int g0/0.1
+desc VLAN Administrativa
+encapsulation dot1q 1
+ip add 200.10.5.74 255.255.255.252
+
+int g0/0.5
+desc VLAN Empleados
+encapsulation dot1q 5
+ip add 200.10.5.62 255.255.255.192
+
+int g0/0.10
+desc VLAN Directivos
+encapsulation dot1q 10
+ip add 200.10.5.70 255.255.255.248
+
+int g0/0
+no shut
+
+! Establecer una ruta por default que se encargue de sacar el tráfico a Internet.
+
+! Directamente conectada
+ip route 0.0.0.0 0.0.0.0 s0/0/1
+! Next-hop
+! ip route 0.0.0.0 0.0.0.0 20.1.1.6
+
+! ====================
+! ===== SPisos ======
+! ====================
+
+ena
+conf t
+hostname SPisos
+no ip domain-lookup
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+! Creación de la base de datos de las VLANs
+
+vlan 5
+name Empleados
+exit
+
+vlan 10
+name Directivos
+exit
+
+! vlan 1 (nativa) está creada por default, no se requiere crear
+
+! Definición de los puertos de acceso y troncal
+
+! Asignación de puertos a la VLAN  VID
+
+interface range f0/1-19
+switchport mode access
+switchport access vlan 5
+
+interface range f0/20-24
+switchport mode access
+switchport access vlan 10
+
+! Definición del o los puertos TRUNK
+interface  g0/1
+switchport mode trunk
+no shut
+
+int vlan 1
+description VLAN Administrativa
+ip address 200.10.5.73 255.255.255.252
+no shut
+
+ip default-gateway 200.10.5.74
+
+! ===========================
+! ======== ISP ==========
+! ===========================
+
+! Definir ruta estática hacia la red local de Pisos y Más.
+
+! Rutas estáticas directamente conectadas
+ip route 200.10.5.0 255.255.255.192 s0/0/0
+ip route 200.10.5.64 255.255.255.248 s0/0/0
+ip route 200.10.5.72 255.255.255.252 s0/0/0
+
+! ip route 0.0.0.0 0.0.0.0 s0/0/0
+! ip route 0.0.0.0 0.0.0.0 20.1.1.5
+ 
+
+
+
+
+
