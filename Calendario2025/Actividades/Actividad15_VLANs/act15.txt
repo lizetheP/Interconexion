@@ -23,7 +23,7 @@ password cisco
 login
 exit
 
-int s0/0/0
+int s0/0/1
 desc Interfaz que conecta con ISP
 
 no shut
