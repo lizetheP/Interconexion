@@ -1,17 +1,17 @@
-------------------------
 --------- MyISP --------
-------------------------
-! Ya Configurado !!!!
 
-! RUTAS ESTÁTICAS
+Ya Configurado !!!!
 
---------------------------
--------- RFrontera -------
---------------------------
+! Rutas estáticas hacia la redes de la empresa
+
+!-------------------
+!-------- RF -------
+!-------------------
+
 enable
 config t
 
-hostname 
+hostname RF
 
 !Encriptar passwords
 service password-enc
@@ -21,79 +21,33 @@ no ip domain-lookup
 
 ! Password de la consola
 line con 0
-password
+password cisco
 login
 logging sync
 
 ! Conexión TELNET o para configurar SSH
 line vty 0 4
-password
+password cisco
 login
 logging sync
 
 ! Password para entrar a modo privilegiado
+!enable secret class
 enable password class
-
-int S0/0/0
-desc
-ip address 
-no shut
 
 int S0/0/1
-description 
-ip address  
-no shut
-
-int g0/0
-desc 
+desc Interfaz con ISP
 ip address 
 no shut
 
-! RUTAS ESTÁTICAS
-
-----------------------
--------- RA ----------
-----------------------
-
-enable
-config t
-
-hostname
-
-!Encriptar passwords
-service password-enc
-
-! Desactivar DNS
-no ip domain-lookup
-
-! Password de la consola
-line con 0
-password cisco
-login
-logging sync
-
-! Conexión TELNET o para configurar SSH
-line vty 0 4
-password cisco
-login
-logging sync
-
-! Password para entrar a modo privilegiado
-enable password class
-
-int S0/0/0
-description 
-ip address
-no shut
-
 int g0/0
-description 
+desc Interfaz de la subred Amarilla
 ip address 
 no shut
 
 int g0/1
-description 
+description Interfaz de la subred Verde
 ip address 
 no shut
 
-! RUTAS ESTÁTICAS
+! Ruta por default hacia MyISP
