@@ -50,4 +50,15 @@ description Interfaz de la subred Verde
 ip address 
 no shut
 
+! Configuración DHCP 
+
+ip dhcp excluded-address 
+
+ip dhcp pool 
+network 
+default-router
+dns-server
+
 ! Ruta por default hacia MyISP
+
+

@@ -38,6 +38,12 @@ banner motd #  #
 ! Configuración DHCP 
 ! ----------------------------
 
+ip dhcp excluded-address 
+
+ip dhcp pool 
+network 
+default-router
+
 ! ============================
 ! ============ S1 ============
 ! ============================
