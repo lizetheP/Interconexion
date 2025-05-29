@@ -18,7 +18,7 @@ line vty 0 4
 password cisco
 login
 
-int g0/1
+int s0/0/1
 desc 
 ip address 
 no shut
@@ -62,4 +62,4 @@ ip default-gateway
 ! ======== ISP ==========
 ! ===========================
 
-! Definir ruta estática hacia la red local de Pisos y Más.
+! Definir rutas estáticas hacia las redes de Pisos y Más.
