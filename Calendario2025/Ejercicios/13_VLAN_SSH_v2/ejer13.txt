@@ -28,6 +28,11 @@ login
 
 ! Configuración de DHCP
 
+ip dhcp excluded-address
+
+ip dhcp pool 
+network 
+default-router 
 
 ! Ruta por default hacia el ISP
 
