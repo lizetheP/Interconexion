@@ -1,0 +1,38 @@
+en
+config t
+
+hostname ISP-Transtelco
+
+service password-encryption
+
+enable secret class
+
+interface Loopback0
+ip address 65.23.0.1 255.255.255.0
+
+interface Loopback1
+ip address 121.1.1.1 255.255.255.0
+
+interface Loopback2
+ip address 132.254.0.23 255.255.255.0
+
+interface GigabitEthernet0/0
+ip address 151.101.1.254 255.255.255.0
+no shut
+
+interface GigabitEthernet0/1
+ip address 172.217.6.254 255.255.255.0
+no shut
+
+interface Serial0/0/0
+description Interfaz de interconexion con la red de Yuya
+ip address 132.254.255.254 255.255.255.252
+clock rate 128000
+no shut
+
+line con 0
+password cisco
+logging synchronous
+login
+
+end

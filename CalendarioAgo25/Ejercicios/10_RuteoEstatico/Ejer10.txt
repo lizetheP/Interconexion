@@ -1,0 +1,64 @@
+--------- MyISP --------
+
+Ya Configurado !!!!
+
+! Rutas estáticas hacia la redes de la empresa
+
+!-------------------
+!-------- RF -------
+!-------------------
+
+enable
+config t
+
+hostname RF
+
+!Encriptar passwords
+service password-enc
+
+! Desactivar DNS
+no ip domain-lookup
+
+! Password de la consola
+line con 0
+password cisco
+login
+logging sync
+
+! Conexión TELNET o para configurar SSH
+line vty 0 4
+password cisco
+login
+logging sync
+
+! Password para entrar a modo privilegiado
+!enable secret class
+enable password class
+
+int S0/0/1
+desc Interfaz con ISP
+ip address 
+no shut
+
+int g0/0
+desc Interfaz de la subred Amarilla
+ip address 
+no shut
+
+int g0/1
+description Interfaz de la subred Verde
+ip address 
+no shut
+
+! Configuración DHCP 
+
+ip dhcp excluded-address 
+
+ip dhcp pool 
+network 
+default-router
+dns-server
+
+! Ruta por default hacia MyISP
+
+

@@ -1,0 +1,29 @@
+router rip
+v 2
+network 172.16.2.0
+network 172.16.3.0
+network 192.168.10.8
+network 209.165.200.224
+no auto-summary
+
+router ospf 1
+network 172.16.2.0 255.255.255.0 area 0
+network 172.16.3.0 255.255.255.252 area 0
+network 192.168.10.8 255.255.255.252 area 0
+network 209.165.200.224 255.255.255.224 area 0
+no auto-summary
+
+router eigrp 1
+network 172.16.2.0 255.255.255.0 area 0
+network 172.16.3.0 255.255.255.252 area 0
+network 192.168.10.8 255.255.255.252 area 0
+network 209.165.200.224 255.255.255.224 area 0
+no auto-summary
+
+172.16.1.0
+172.16.2.0
+172.16.3.0
+192.168.1.0
+192.168.10.4
+192.168.10.8
+209.165.200.224

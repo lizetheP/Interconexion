@@ -1,0 +1,214 @@
+! ===========================
+! ======== RFrontera ========
+! ===========================
+
+ena
+config t
+hostname RFrontera
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 4 
+password cisco 
+login
+exit
+
+int s0/0/1
+desc Interfaz que conecta con ISP
+ip address 65.255.255.253 255.255.255.252
+clock rate 128000
+no shut
+
+! Declaración de subinterfaces
+
+! Administrative VLAN 1
+
+int g0/0.1
+desc VLAN Nativa
+encapsulation dot1q 1
+ip add 193.168.1.154 255.255.255.252 
+
+! Managers VLAN 10
+
+int g0/0.10
+desc VLAN Managers
+encapsulation dot1q 10
+ip add 193.168.1.142 255.255.255.240
+
+! Users VLAN 20
+
+int g0/0.20
+desc VLAN Users
+encapsulation dot1q 20
+ip add 193.168.1.126 255.255.255.128
+
+! Services VLAN 30
+
+int g0/0.30
+desc VLAN Services
+encapsulation dot1q 30
+ip add 193.168.1.150 255.255.255.248
+
+int g0/0
+no shut
+
+! Configuración de DHCP para las tres VLANs (Managers, Users y Services)
+
+ip dhcp excluded-address 193.168.1.126
+ip dhcp excluded-address 193.168.1.142
+ip dhcp excluded-address 193.168.1.150
+ip dhcp excluded-address 193.168.1.145
+
+ip dhcp pool Users
+network 193.168.1.0 255.255.255.128
+default-router 193.168.1.126
+dns-server 1.1.1.1
+
+ip dhcp pool Managers
+network 193.168.1.128 255.255.255.240
+default-router 193.168.1.142
+dns-server 1.1.1.1
+
+ip dhcp pool Services
+network 193.168.1.144 255.255.255.248
+default-router 193.168.1.150
+dns-server 1.1.1.1
+ 
+! Establecer una ruta por default que se encargue de sacar el tráfico a Internet
+
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+
+! Next-hop
+! ip route 0.0.0.0 0.0.0.0 65.255.255.254
+
+end
+
+! ====================
+! ===== SCompany ======
+! ====================
+
+ena
+conf t
+hostname SCompany
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
+! Creación de la base de datos de las VLANs
+
+vlan 10
+name Managers
+exit
+
+vlan 20
+name Users
+exit
+
+vlan 30
+name Services
+exit
+
+
+! Definición de los puertos de acceso
+interface range f0/1-6
+switchport mode access
+switchport access vlan 10
+
+interface range f0/7-19
+switchport mode access
+switchport access vlan 20
+
+interface range f0/20-24
+switchport mode access
+switchport access vlan 30
+
+! Definición de puertos trunk
+
+interface g0/1
+switchport mode trunk
+no shut
+
+! Configurar la IP del switch SCompany y su default Gateway
+
+int vlan 1
+ip address 193.168.1.153 255.255.255.252
+no shut
+
+ip default-gateway 193.168.1.154
+
+end
+
+! ====================
+! ====== SUsers ======
+! ====================
+
+ena
+conf t
+hostname SUsers
+
+no ip domain-lookup
+service password-encryption 
+
+enable secret class
+
+banner motd # Unauthorized access is strictly prohibited.# 
+
+line con 0
+password cisco 
+login
+logging synchronous 
+
+line vty 0 15 
+password cisco 
+login
+exit
+
+vlan 20
+name Users
+exit
+
+! Definición de los puertos de acceso
+interface range f0/1-24, g0/1-2
+switchport mode access
+switchport access vlan 20
+
+end
+
+! ===========================
+! ======== ISP ==========
+! ===========================
+
+! Creación de las rutas estáticas hacia las redes de la VLAN 1, 10, 20 y 30
+
+ip route 193.168.1.0 255.255.255.0 s0/0/0
+
+! Next-hop
+!ip route 193.168.1.0 255.255.255.0 65.255.255.253
+
+
+
+

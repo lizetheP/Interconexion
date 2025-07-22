@@ -1,0 +1,65 @@
+! ===========================
+! ======== RPisos ==========
+! ===========================
+
+ena
+config t
+hostname RPisos
+no ip domain-lookup
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+int s0/0/1
+desc 
+ip address 
+no shut
+
+! Declaración de subinterfaces.
+
+! Establecer una ruta por default que se encargue de sacar el tráfico a Internet.
+
+! ====================
+! ===== SPisos ======
+! ====================
+
+ena
+conf t
+hostname SPisos
+no ip domain-lookup
+
+enable secret class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+! Creación de la base de datos de las VLANs
+
+! Definición de los puertos de acceso y troncal
+
+int vlan 1
+description 
+ip address 
+no shut
+
+ip default-gateway 
+
+! ===========================
+! ======== ISP ==========
+! ===========================
+
+! Definir rutas estáticas hacia las redes de Pisos y Más.
