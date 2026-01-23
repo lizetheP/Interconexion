@@ -1,0 +1,96 @@
+! ============================
+! ============ R1 ============
+! ============================
+
+enable
+config t
+
+hostname R1
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+
+int g0/0
+desc Enlace con PC-B
+ip address 192.168.0.33 255.255.255.224
+no shut
+
+int g0/1
+desc Enlace con PC-A
+ip address 192.168.0.1 255.255.255.224
+no shut
+
+int Lo0
+ip address 192.168.0.65 255.255.255.224
+
+banner motd #Prohibido entrar a este equipo sin autorización#
+
+! ============================
+! ============ S1 ============
+! ============================
+
+enable
+config t
+hostname S1
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+int vlan 1
+description VLAN Administrativa
+ip address 192.168.0.29 255.255.255.224
+no shut
+
+ip default-Gateway 192.168.0.1
+
+banner motd #Prohibido el acceso sin autorización#
+
+! ============================
+! ============ S2 ============
+! ============================
+
+enable
+config t
+hostname S2
+
+no ip domain-lookup
+
+enable password class
+
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 15
+password cisco
+login
+
+int vlan 1
+description VLAN Administrativa
+ip address 192.168.0.61 255.255.255.224
+no shut
+
+ip default-Gateway 192.168.0.33
+
+banner motd #Prohibido el acceso sin autorización#

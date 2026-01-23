@@ -1,0 +1,4 @@
+interface Serial0/0/1
+ip address 200.64.8.253 255.255.255.252
+clock rate 128000
+no shut
