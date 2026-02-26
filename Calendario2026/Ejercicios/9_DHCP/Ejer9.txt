@@ -44,6 +44,7 @@ ip dhcp excluded-address
 ip dhcp pool 
 network 
 default-router
+dns-server
 
 ! ============================
 ! ============ S1 ============
