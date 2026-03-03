@@ -26,10 +26,10 @@ exit
 
 int s0/0/1
 desc Interfaz que conecta con ISP
-
 no shut
 
 ! Declaración de subinterfaces
+!------------------------------------------------------------------------
 
 ! Administrative VLAN 1
 
@@ -40,16 +40,23 @@ no shut
 ! Services VLAN 30
 
 ! Configuración de DHCP para las tres VLANs (Managers, Users y Services)
+!------------------------------------------------------------------------
 
+ip dhcp excluded-address DIRECCION_IP_INICIAL DIRECCION_IP_FINAL
+
+ip dhcp pool NOMBRE_POOL
+network DIRECCION_DE_RED MASCARA_DE_SUBRED
+default-router DIRECCION_IP_ROUTER
+dns-server DIRECCION_IP_SERVIDOR_DNS
 
 ! Establecer una ruta por default que se encargue de sacar el tráfico a Internet
 
 
 end
 
-! ====================
+! =====================
 ! ===== SCompany ======
-! ====================
+! =====================
 
 ena
 conf t
@@ -84,12 +91,29 @@ exit
 
 ! Configurar la IP del switch SCompany y su default Gateway
 
+interface vlan 1
+ip address DIRECCION_IP MASCARA_DE_SUBRED
+no shutdown
 
-end
+ip default-gateway DIRECCION_IP
 
+! Configuración de SSH
+!-------------------------------------------------------------------
+
+ip domain-name NOMBRE_DE_DOMINIO
+crypto key generate rsa
+
+username NOMBRE_DEL_USUARIO secret CONTRASEÑA
+
+line vty 0 15
+transport input ssh
+login local
+exit
 
 ! ===========================
-! ======== ISP ==========
+! ======== ISP ==============
 ! ===========================
 
 ! Creación de las rutas estáticas hacia las redes de la VLAN 1, 10, 20 y 30
+
+
