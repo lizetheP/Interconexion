@@ -33,7 +33,8 @@ ip dhcp excluded-address
 
 ip dhcp pool 
 network 
-default-router 
+default-router
+dns-server
 
 ! Ruta por default hacia el ISP
 
