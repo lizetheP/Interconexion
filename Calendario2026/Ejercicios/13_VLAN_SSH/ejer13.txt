@@ -78,9 +78,6 @@ ip default-gateway
 !--- Configuración de interfaces de acceso y troncales
 
 
-! Apagar todos los puertos del switch
-
-
 !---------------------
 !*** ISP ***
 !---------------------
