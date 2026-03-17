@@ -1,0 +1,21 @@
+R1
+service password-encryption
+security passwords min-length 10
+!
+hostname R1
+!
+login block-for 30 attempts 2 within 120
+!
+enable secret 5 $1$mERr$5wXi8fVAu3dNc0gNCjvIQ1
+
+line con 0
+ exec-timeout 5 0
+ password 7 0822455D0A16351601185E54787D
+ login
+!
+line aux 0
+!
+line vty 0 4
+ exec-timeout 5 0
+ logging synchronous
+ login
