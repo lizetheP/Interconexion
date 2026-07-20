@@ -66,8 +66,8 @@ exit
 
 ! --- Configuración de IP del switch y default-Gateway
 
-int vlan 1
-description VLAN Administrativa
+int vlan 999
+description VLAN de Gestion
 no shut
 
 ip default-gateway

@@ -53,7 +53,7 @@ logging synchronous
 
 ! Definición de los puertos de acceso y troncal
 
-int vlan 1
+int vlan 99
 description 
 ip address 
 no shut

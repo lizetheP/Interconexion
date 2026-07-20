@@ -31,7 +31,7 @@ no shut
 ! Declaración de subinterfaces
 !------------------------------------------------------------------------
 
-! Administrative VLAN 1
+! Gestion VLAN 333
 
 ! Managers VLAN 10
 
@@ -91,7 +91,7 @@ exit
 
 ! Configurar la IP del switch SCompany y su default Gateway
 
-interface vlan 1
+interface vlan 333
 ip address DIRECCION_IP MASCARA_DE_SUBRED
 no shutdown
 
@@ -114,6 +114,6 @@ exit
 ! ======== ISP ==============
 ! ===========================
 
-! Creación de las rutas estáticas hacia las redes de la VLAN 1, 10, 20 y 30
+! Creación de las rutas estáticas hacia las redes de la VLAN 333, 10, 20 y 30
 
 
